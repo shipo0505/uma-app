@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Page({ searchParams }) {
-  const id = searchParams.id
+  const id = searchParams?.id
   const [got, setGot] = useState(false)
 
   const handleGet = () => {
@@ -13,11 +13,17 @@ export default function Page({ searchParams }) {
     }
   }
 
+  useEffect(() => {
+    if (id && localStorage.getItem(id)) {
+      setGot(true)
+    }
+  }, [id])
+
   return (
     <div style={{ padding: 20, textAlign: 'center' }}>
       <h1>UMA Brewery</h1>
 
-      /label-ipa.png
+      <img src="/label-ipa.png" width="200" />
 
       <p>ID: {id}</p>
 
@@ -34,7 +40,9 @@ export default function Page({ searchParams }) {
 
       <br /><br />
 
-      /collectionコレクションを見る</a>
+      <a href="/collection">
+        コレクションを見る
+      </a>
     </div>
   )
 }
