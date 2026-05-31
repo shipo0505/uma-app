@@ -1,23 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-export default function Page({ searchParams }) {
-  const id = searchParams?.id
+export default function Page() {
   const [got, setGot] = useState(false)
 
-  const handleGet = () => {
-    if (id) {
-      localStorage.setItem(id, 'true')
-      setGot(true)
-    }
-  }
+  // ✅ ここで直接取得（シンプル最強）
+  const id =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search).get('id')
+      : null
 
-  useEffect(() => {
-    if (id && localStorage.getItem(id)) {
-      setGot(true)
+  const handleGet = () => {
+    if (!id) {
+      alert('IDが取得できてない')
+      return
     }
-  }, [id])
+
+    localStorage.setItem(id, 'true')
+    setGot(true)
+  }
 
   return (
     <div style={{ padding: 20, textAlign: 'center' }}>
@@ -28,7 +30,10 @@ export default function Page({ searchParams }) {
       <p>ID: {id}</p>
 
       {!got ? (
-        <button onClick={handleGet}>
+        <button
+          onClick={handleGet}
+          style={{ fontSize: 20, padding: '10px 20px' }}
+        >
           GETする
         </button>
       ) : (
@@ -40,9 +45,8 @@ export default function Page({ searchParams }) {
 
       <br /><br />
 
-      <a href="/collection">
-        コレクションを見る
-      </a>
+      <a href="/collection">コレクションを見る</a>
     </div>
   )
 }
+``
