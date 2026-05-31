@@ -1,11 +1,9 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
-export default function Page() {
-  const params = useSearchParams()
-  const id = params.get('id')
+export default function Page({ searchParams }) {
+  const id = searchParams.id
   const [got, setGot] = useState(false)
 
   const handleGet = () => {
@@ -19,8 +17,7 @@ export default function Page() {
     <div style={{ padding: 20, textAlign: 'center' }}>
       <h1>UMA Brewery</h1>
 
-      {/* ラベル画像 */}
-      <img src="/label.png" style={{ width: '200px' }} />
+      /label-ipa.png
 
       <p>ID: {id}</p>
 
@@ -30,17 +27,14 @@ export default function Page() {
         </button>
       ) : (
         <div>
-          <h2 style={{ color: 'gold' , fontSize: 28 }}>GET!</h2>
-          <p style={{ color: '#0f0' }}>コレクションに追加されました</p>
+          <h2 style={{ color: 'gold' }}>GET!</h2>
+          <p>コレクションに追加されました</p>
         </div>
       )}
 
-	<a href="/collection" style={{ display: 'block', marginTop: 20 }}>
-  コレクションを見る
-	</a>
-          
+      <br /><br />
 
+      /collectionコレクションを見る</a>
     </div>
   )
 }
-``
