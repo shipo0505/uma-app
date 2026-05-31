@@ -1,67 +1,42 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-export default function Page() {
-  const [items, setItems] = useState([])
+export default function Page({ searchParams }) {
+  const id = searchParams.id
+  const [got, setGot] = useState(false)
 
-  const allItems = [
-    'uma-ipa-001',
-    'uma-lager-001',
-    'uma-ale-001'
-  ]
-
-  const imageMap = {
-    'uma-ipa-001': '/label-ipa.png',
-    'uma-lager-001': '/label-lager.png',
-    'uma-ale-001': '/label-ale.png'
+  const handleGet = () => {
+    if (id) {
+      localStorage.setItem(id, 'true')
+      setGot(true)
+    }
   }
 
-  useEffect(() => {
-    const keys = Object.keys(localStorage)
-    setItems(keys)
-  }, [])
-
   return (
-    <div style={{ padding: 20 }}>
-      <h1>
-        コレクション {items.length} / {allItems.length}
-      </h1>
+    <div style={{ padding: 20, textAlign: 'center' }}>
+      <h1>UMA Brewery</h1>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 15
-        }}
-      >
-        {allItems.map((id) => {
-          const owned = items.includes(id)
+      <img src="/label.png" style={{ width: 200 }} />
 
-          return (
-            <div
-              key={id}
-              style={{
-                textAlign: 'center',
-                opacity: owned ? 1 : 0.3
-              }}
-            >
-              <img
-                src={imageMap[id]}
-                style={{ width: 100 }}
-              />
+      <p>ID: {id}</p>
 
-              <p style={{ fontSize: 12 }}>{id}</p>
+      {!got ? (
+        <button onClick={handleGet}>
+          GETする
+        </button>
+      ) : (
+        <div>
+          <h2 style={{ color: 'gold' }}>GET!</h2>
+          <p>コレクションに追加されました</p>
+        </div>
+      )}
 
-              {!owned && (
-                <p style={{ fontSize: 10, color: 'gray' }}>
-                  未取得
-                </p>
-              )}
-            </div>
-          )
-        })}
-      </div>
+      <br /><br />
+
+      <a href="/collection">
+        コレクションを見る
+      </a>
     </div>
   )
 }
